@@ -1,0 +1,68 @@
+# Model B: 1D U-Net++ with Multi-Scale Dilated Convolutions
+project:
+  name: "dilated-unetplusplus"
+  seed: 42
+  device: "auto"
+
+data:
+  path: "STEAD/test.hdf5"
+  num_records: 500
+  train_split: 0.70
+  val_split: 0.15
+  test_split: 0.15
+  sampling_rate: 100.0
+  num_channels: 3
+  waveform_length: 6000
+  p_arrival_key: "p_arrival"
+  s_arrival_key: "s_arrival"
+  traces_key: "traces"
+  metadata_key: "metadata"
+
+preprocessing:
+  filtering: true
+  filter_type: "butterworth"
+  filter_order: 4
+  lowcut: 0.5
+  highcut: 10.0
+  zero_phase: true
+  normalization: "per_channel"
+  displacement:
+    enabled: false
+
+gaussian:
+  sigma: 20
+
+model:
+  architecture: "unetplusplus_1d"
+  in_channels: 3
+  num_classes: 1
+  base_channels: 16
+  depth: 4
+  dilated_convolutions: true
+  dilation_rates: [1, 2, 4, 8]
+  attention: false
+  deep_supervision: false
+  dropout: 0.1
+
+training:
+  batch_size: 16
+  epochs: 30
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  loss: "mse"
+  scheduler: "step"
+  lr_step_size: 10
+  lr_gamma: 0.9
+  early_stopping_patience: 8
+  checkpoint_dir: "checkpoints"
+  num_workers: 0
+
+inference:
+  threshold: 0.4
+  min_distance: 50
+  prominence: 0.15
+
+evaluation:
+  timing_tolerance_samples: 20
+  timing_tolerance_ms: 200.0
+  results_dir: "results/dilated"

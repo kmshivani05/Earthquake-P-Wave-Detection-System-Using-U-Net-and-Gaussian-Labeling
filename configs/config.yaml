@@ -1,0 +1,81 @@
+project:
+  name: "earthquake-p-wave-detection"
+  description: "Physics-Informed U-Net++ with Gaussian Labeling for P-Wave Arrival Detection"
+  seed: 42
+  device: "auto"  # "auto", "cuda", or "cpu"
+
+data:
+  # Path to dataset (can be relative to repo root or absolute)
+  path: "STEAD/test.hdf5"
+  num_records: null          # null for all records, or integer for subset (e.g. 500)
+  train_split: 0.70
+  val_split: 0.15
+  test_split: 0.15
+  sampling_rate: 100.0       # Standard STEAD sampling rate (Hz); null if unverified
+  num_channels: 3
+  waveform_length: 6000
+  p_arrival_key: "p_arrival"
+  s_arrival_key: "s_arrival"
+  traces_key: "traces"
+  metadata_key: "metadata"
+
+preprocessing:
+  filtering: true
+  filter_type: "butterworth"
+  filter_order: 4
+  lowcut: 0.5                # Hz
+  highcut: 10.0              # Hz
+  zero_phase: true           # true for offline filtfilt (non-causal), false for causal
+  normalization: "per_channel" # "per_channel", "per_record", "robust", or "none"
+  displacement:
+    enabled: false           # Physics-informed double integration (experimental)
+    detrend: true
+    highpass_cutoff: 0.1     # Hz for integration drift removal
+
+windowing:
+  enabled: false
+  window_length: 1000        # samples (e.g. 10.0s at 100Hz)
+  step_size: 500             # samples (50% overlap)
+
+gaussian:
+  sigma: 20                  # Standard deviation in samples (e.g. 0.20s at 100Hz)
+  normalize_peak: true       # Peak = 1.0
+
+model:
+  architecture: "unetplusplus_1d"
+  in_channels: 3
+  num_classes: 1
+  base_channels: 32
+  depth: 4                   # Downsampling stages (e.g., 4 levels: 32, 64, 128, 256)
+  dilated_convolutions: false
+  dilation_rates: [1, 2, 4, 8]
+  attention: false
+  attention_heads: 4
+  deep_supervision: false
+  dropout: 0.1
+
+training:
+  batch_size: 16
+  epochs: 50
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  loss: "mse"                # "mse", "bce_with_logits", or "weighted_mse"
+  scheduler: "step"          # "step", "cosine", or "none"
+  lr_step_size: 10
+  lr_gamma: 0.9
+  early_stopping_patience: 10
+  min_delta: 0.0001
+  checkpoint_dir: "checkpoints"
+  save_best_only: true
+  num_workers: 0             # 0 for safe Windows HDF5 multiprocessing compatibility
+
+inference:
+  threshold: 0.5             # Minimum peak score to consider as valid detection
+  min_distance: 50           # Minimum distance between detected peaks
+  prominence: 0.2            # Peak prominence for scipy.signal.find_peaks
+
+evaluation:
+  timing_tolerance_samples: 20   # Tolerance in samples (0.2s at 100Hz)
+  timing_tolerance_ms: 200.0     # Tolerance in milliseconds (requires sampling_rate)
+  metrics: ["mae", "median_ae", "rmse", "precision", "recall", "f1", "detection_rate"]
+  results_dir: "results"

@@ -1,0 +1,46 @@
+cff-version: 1.2.0
+message: "If you use this software or methodology in your research, please cite it as below."
+title: "Earthquake P-Wave Detection System Using U-Net++ and Gaussian Labeling"
+version: 0.1.0
+date-released: 2026-11-07
+url: "https://github.com/example/earthquake-p-wave-detection"
+authors:
+  - family-names: "Research Contributors"
+    given-names: "Earthquake ML Team"
+references:
+  - type: article
+    title: "A Physics-Informed Deep Learning and Probabilistic Inference Framework for Real-Time Single-Station Earthquake Detection and Magnitude Estimation"
+    doi: "10.21203/rs.3.rs-7479899/v1"
+    url: "https://www.researchgate.net/publication/395636547_A_Physics-Informed_Deep_Learning_and_Probabilistic_Inference_Framework_for_Real-Time_Single-Station_Earthquake_Detection_and_Magnitude_Estimation"
+    year: 2024
+  - type: article
+    title: "UNet++: A Nested U-Net Architecture for Medical Image Segmentation"
+    authors:
+      - family-names: "Zhou"
+        given-names: "Zongwei"
+      - family-names: "Siddiquee"
+        given-names: "Md Mahfuzur Rahman"
+      - family-names: "Tajbakhsh"
+        given-names: "Nima"
+      - family-names: "Liang"
+        given-names: "Jianming"
+    journal: "Deep Learning in Medical Image Analysis and Multimodal Learning for Clinical Decision Support"
+    pages: "3-11"
+    year: 2018
+    doi: "10.1007/978-3-030-00889-5_1"
+  - type: article
+    title: "STanford EArthquake Dataset (STEAD): A Global Data Set of Seismic Signals for AI"
+    authors:
+      - family-names: "Mousavi"
+        given-names: "S. Mostafa"
+      - family-names: "Sheng"
+        given-names: "Yixiao"
+      - family-names: "Zhu"
+        given-names: "Weiqiang"
+      - family-names: "Beroza"
+        given-names: "Gregory C."
+    journal: "IEEE Access"
+    volume: "7"
+    pages: "179464-179476"
+    year: 2019
+    doi: "10.1109/ACCESS.2019.2959182"

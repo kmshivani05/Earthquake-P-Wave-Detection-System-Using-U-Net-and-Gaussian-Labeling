@@ -1,0 +1,19 @@
+# Core Deep Learning and Scientific Computing
+torch>=2.0.0
+numpy>=1.23.0
+scipy>=1.10.0
+h5py>=3.8.0
+matplotlib>=3.6.0
+PyYAML>=6.0
+
+# Evaluation, Tabular & Notebooks
+pandas>=1.5.0
+jupyter>=1.0.0
+ipykernel>=6.20.0
+
+# Testing and Code Quality
+pytest>=7.3.0
+pytest-cov>=4.0.0
+
+# Progress Tracking & CLI
+tqdm>=4.65.0
